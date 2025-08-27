@@ -1,7 +1,6 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Sphere, MeshDistortMaterial } from "@react-three/drei";
 import PlayerModel from "../PlayerModel/PlayerModel";
 import SupportBanner from "../Support/Support";
 
@@ -18,4 +17,3 @@ export function MainBanner() {
         </div>
     );
 }
-

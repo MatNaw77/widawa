@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { FBXLoader } from "three-stdlib";
 import { AnimationMixer } from "three";
 
 export default function PlayerModel() {
     const fbx = useLoader(FBXLoader, "/models/player.fbx");
-    const mixer = new AnimationMixer(fbx);
+    const mixer = useMemo(() => new AnimationMixer(fbx), [fbx]);
     const scale = window.innerWidth < 768 ? 0.01 : 0.02;
     const position = window.innerWidth < 768 ? [-4, -1, 0] : [-6, -2, 0];
 

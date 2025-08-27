@@ -3,50 +3,50 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Menu, X } from "lucide-react"; // ikony menu
+import { Menu, X } from "lucide-react";
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-md w-full sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <Link href="/" className="text-xl font-bold text-gray-800">
-            <Image
-                src="/logo.svg"
-                alt="Logo klubu"
-                width={80}
-                height={25}
-                priority
-            />
+    <header className="absolute top-0 left-0 w-full z-50">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 flex items-center justify-between h-20">
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src="/logo.svg"
+            alt="Logo klubu"
+            width={100}
+            height={35}
+            priority
+          />
+          <span className="text-2xl font-bold text-white tracking-wide">
+            Tomtex Widawa Wrocław
+          </span>
         </Link>
 
-        {/* Desktop menu */}
-        <nav className="hidden md:flex space-x-6 text-sm font-medium">
-          <Link href="/o-nas" className="hover:text-green-600">O klubie</Link>
-          <Link href="/dzieci" className="hover:text-green-600">Sekcja dziecięca</Link>
-          <Link href="/stowarzyszenie" className="hover:text-green-600">Stowarzyszenie</Link>
-          <Link href="/kontakt" className="hover:text-green-600">Kontakt</Link>
+        <nav className="hidden md:flex space-x-10 text-lg font-semibold text-white">
+          <Link href="/o-nas" className="hover:bg-black hover:text-white px-3 py-1 rounded-md transition">O klubie</Link>
+          <Link href="/dzieci" className="hover:bg-black hover:text-white px-3 py-1 rounded-md transition">Sekcja dziecięca</Link>
+          <Link href="/stowarzyszenie" className="hover:bg-black hover:text-white px-3 py-1 rounded-md transition">Stowarzyszenie</Link>
+          <Link href="/kontakt" className="hover:bg-black hover:text-white px-3 py-1 rounded-md transition">Kontakt</Link>
         </nav>
 
-        {/* Mobile toggle */}
         <button
-          className="md:hidden text-gray-700"
+          className="md:hidden text-white"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          {menuOpen ? <X size={30} /> : <Menu size={30} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white px-4 pb-4 shadow-md">
-          <nav className="flex flex-col space-y-2 text-sm font-medium">
-            <Link href="/o-nas" className="hover:text-green-600" onClick={() => setMenuOpen(false)}>O klubie</Link>
-            <Link href="/dzieci" className="hover:text-green-600" onClick={() => setMenuOpen(false)}>Sekcja dziecięca</Link>
-            <Link href="/stowarzyszenie" className="hover:text-green-600" onClick={() => setMenuOpen(false)}>Stowarzyszenie</Link>
-            <Link href="/kontakt" className="hover:text-green-600" onClick={() => setMenuOpen(false)}>Kontakt</Link>
+        <div className="md:hidden bg-black/80 px-6 pb-6">
+          <nav className="flex flex-col space-y-4 text-lg font-semibold text-white">
+            <Link href="/o-nas" className="hover:text-green-400" onClick={() => setMenuOpen(false)}>O klubie</Link>
+            <Link href="/dzieci" className="hover:text-green-400" onClick={() => setMenuOpen(false)}>Sekcja dziecięca</Link>
+            <Link href="/stowarzyszenie" className="hover:text-green-400" onClick={() => setMenuOpen(false)}>Stowarzyszenie</Link>
+            <Link href="/kontakt" className="hover:text-green-400" onClick={() => setMenuOpen(false)}>Kontakt</Link>
           </nav>
         </div>
       )}

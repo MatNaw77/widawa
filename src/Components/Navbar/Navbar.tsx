@@ -2,14 +2,35 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+
+const links = [
+  { href: "/o-nas", label: "O klubie" },
+  { href: "/dzieci", label: "Sekcja dziecięca" },
+  { href: "/stowarzyszenie", label: "Stowarzyszenie" },
+  { href: "/kontakt", label: "Kontakt" },
+];
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="absolute top-0 left-0 w-full z-50">
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? "bg-white shadow-md" : "bg-transparent"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-6 sm:px-10 flex items-center justify-between h-20">
         <Link href="/" className="flex items-center gap-3">
           <Image
@@ -19,20 +40,31 @@ export function Navbar() {
             height={35}
             priority
           />
-          <span className="text-2xl font-bold text-white tracking-wide">
+          <span
+            className={`text-2xl font-bold tracking-wide transition-colors ${
+              scrolled ? "text-red-600" : "text-white"
+            }`}
+          >
             Tomtex Widawa Wrocław
           </span>
         </Link>
 
-        <nav className="hidden md:flex space-x-10 text-lg font-semibold text-white">
-          <Link href="/o-nas" className="hover:bg-black hover:text-white px-3 py-1 rounded-md transition">O klubie</Link>
-          <Link href="/dzieci" className="hover:bg-black hover:text-white px-3 py-1 rounded-md transition">Sekcja dziecięca</Link>
-          <Link href="/stowarzyszenie" className="hover:bg-black hover:text-white px-3 py-1 rounded-md transition">Stowarzyszenie</Link>
-          <Link href="/kontakt" className="hover:bg-black hover:text-white px-3 py-1 rounded-md transition">Kontakt</Link>
+        <nav
+          className={`hidden md:flex space-x-10 text-lg font-semibold transition-colors ${
+            scrolled ? "text-red-600" : "text-white"
+          }`}
+        >
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} className="hover:underline">
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
         <button
-          className="md:hidden text-white"
+          className={`md:hidden transition-colors ${
+            scrolled ? "text-red-600" : "text-white"
+          }`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -41,12 +73,13 @@ export function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-black/80 px-6 pb-6">
-          <nav className="flex flex-col space-y-4 text-lg font-semibold text-white">
-            <Link href="/o-nas" className="hover:text-green-400" onClick={() => setMenuOpen(false)}>O klubie</Link>
-            <Link href="/dzieci" className="hover:text-green-400" onClick={() => setMenuOpen(false)}>Sekcja dziecięca</Link>
-            <Link href="/stowarzyszenie" className="hover:text-green-400" onClick={() => setMenuOpen(false)}>Stowarzyszenie</Link>
-            <Link href="/kontakt" className="hover:text-green-400" onClick={() => setMenuOpen(false)}>Kontakt</Link>
+        <div className="md:hidden bg-white px-6 pb-6 shadow-md">
+          <nav className="flex flex-col space-y-4 text-lg font-semibold text-red-600">
+            {links.map((link) => (
+              <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
       )}

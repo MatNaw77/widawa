@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import SupportButton from "@/Components/SupportButton/SupportButton";
-import SignChild from "@/Components/SignChild/SignChild";
+import SignChild from "@/Components/SignChild/SignChildButton";
 
 export function MainBanner() {
     return (

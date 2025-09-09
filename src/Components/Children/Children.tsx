@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Image from "next/image";
-import SignChild from "@/Components/SignChild/SignChild";
+import SignChild from "@/Components/SignChild/SignChildButton";
 
 export const Children: FC = () => (
   <section className="w-full bg-gray-50 py-16">

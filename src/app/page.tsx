@@ -3,6 +3,7 @@ import { Footer } from "@/Components/Footer/Footer";
 import { Navbar } from "@/Components/Navbar/Navbar";
 import { MainBanner } from "@/Components/Mainbanner/MainBanner";
 import Image from "next/image";
+import { About } from "@/Components/About/About";
 
 export default function Home() {
   return (
@@ -10,29 +11,12 @@ export default function Home() {
       <Navbar />
     <main className="flex flex-col items-center">
       <MainBanner />
+      <About />
 
-      {/* O nas */}
-      <section className="max-w-6xl w-full px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
-        <div>
-          <h2 className="text-2xl font-bold mb-6">O nas</h2>
-          <ul className="space-y-4 text-lg">
-            <li>⚽ 2 drużyny seniorskie</li>
-            <li>👦 25 dzieci w sekcji</li>
-            <li>💯 100% zaangażowania społecznego</li>
-            <li>🤝 Działamy jako stowarzyszenie, bez etatów, z pasji</li>
-          </ul>
-        </div>
-        <Image
-          src="/widawa_dorosli.jpg" // podmień na swoje zdjęcie
-          alt="Piłkarz w akcji"
-          width={600}
-          height={400}
-          className="rounded-2xl shadow-lg object-cover"
-        />
-      </section>
-
+    
       {/* Sekcja dziecięca */}
-      <section className="bg-gray-50 w-full px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
+      <section className="w-full bg-gray-50 py-16">
+      <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-30 items-center">
         <Image
           src="/3_dzieci.png" // podmień na swoje zdjęcie
           alt="Dzieci grające w piłkę"
@@ -54,6 +38,7 @@ export default function Home() {
             Zapisz dziecko do sekcji
           </button>
         </div>
+      </div>
       </section>
 
       {/* Wesprzyj nas */}

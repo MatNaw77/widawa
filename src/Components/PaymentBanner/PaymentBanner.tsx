@@ -1,0 +1,97 @@
+"use client";
+import { FC, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+export const PaymentBanner: FC = () => {
+    const [accepted, setAccepted] = useState(false);
+    const amounts = [30, 50, 100, "inna"];
+
+    return (
+        <section className="w-full bg-red-800 text-white mt-20 min-h-[69vh] flex items-center">
+            <div className="max-w-6xl mx-auto flex flex-col lg:flex-row">
+                <div className="flex-1 p-8 lg:p-12">
+                    <h2 className="text-3xl font-bold mb-4">❤️ WPŁATA ONLINE</h2>
+                    <h1 className="mb-6 ml-4">Wesprzyj nas swoją darowizną</h1>
+
+                    <label className="flex items-center gap-2 mb-8 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={accepted}
+                            onChange={(e) => setAccepted(e.target.checked)}
+                            className="w-5 h-5"
+                        />
+                        <span>
+                            Zapoznałem(am) się z{" "}
+                            <Link
+                                href="/polityka-platnosci"
+                                className="text-blue-300 underline hover:text-blue-100"
+                            >
+                                regulaminem wpłat
+                            </Link>{" "}
+                            i akceptuję jego warunki
+                        </span>
+                    </label>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+                        {amounts.map((a, i) => (
+                            <button
+                                key={i}
+                                disabled={!accepted}
+                                className={`rounded-lg py-6 text-center font-semibold transition
+                              ${accepted
+                                        ? "bg-red-600 hover:bg-red-800 cursor-pointer"
+                                        : "bg-red-400 cursor-not-allowed"
+                                    }`}
+                            >
+                                {a === "inna" ? (
+                                    <>
+                                        Wpłacam <br />
+                                        <span className="text-lg">inną kwotę</span>
+                                        <p className="text-xs mt-1">
+                                            (kwota do wpisania u operatora płatności)
+                                        </p>
+                                    </>
+                                ) : (
+                                    <>
+                                        Wpłacam <br />
+                                        <span className="text-lg">{a} zł</span>
+                                    </>
+                                )}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="mt-8 text-sm">
+                        <p className="mb-2">Bezpieczeństwo płatności zapewnia</p>
+                        <Image
+                            src="/przelewy24_logo.png"
+                            alt="Przelewy24"
+                            width={150}
+                            height={40}
+                            className="mb-4"
+                        />
+                        <p className="text-xs text-gray-200">
+                            Przekazane darowizny na konto Stowarzyszenia Futbolu Widawa
+                            Wrocław wykorzystywane są na działalność statutową.
+                        </p>
+                        <p className="mt-2 font-semibold">Dziękujemy za wsparcie! 💚</p>
+                    </div>
+                </div>
+                <div className="w-full lg:w-1/3 grid grid-cols-2 grid-rows-3 gap-1 min-h-[400px]">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className="relative w-full aspect-square">
+                            <Image
+                                src={`/gallery/${i + 1}.jpg`}
+                                alt={`Zdjęcie ${i + 1}`}
+                                fill
+                                className="object-cover"
+                            />
+                        </div>
+                    ))}
+                </div>
+
+            </div>
+        </section>
+    );
+};

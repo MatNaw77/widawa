@@ -6,7 +6,7 @@ import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const links = [
-    { href: "/o-nas", label: "O klubie" },
+    { href: "/klub", label: "O klubie" },
     { href: "/dzieci", label: "Sekcja dziecięca" },
     { href: "/stowarzyszenie", label: "Stowarzyszenie" },
     { href: "/kontakt", label: "Kontakt" },

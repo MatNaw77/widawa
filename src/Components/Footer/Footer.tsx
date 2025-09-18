@@ -10,9 +10,9 @@ export function Footer() {
                     <p className="flex items-center gap-2 mb-1 justify-center">
                         <FaEnvelope /> ks.widawa.wroclaw@gmail.com
                     </p>
-                    <p className="flex items-center gap-2 mb-1 justify-center">
+                    {/* <p className="flex items-center gap-2 mb-1 justify-center">
                         <FaPhone /> 791 250 904
-                    </p>
+                    </p> */}
                     <p className="mt-2">📍 Kominiarska 26 / Wrocław</p>
                     <div className="flex gap-4 mt-4 justify-center">
                         <a
@@ -30,7 +30,7 @@ export function Footer() {
                     <h3 className="text-base font-semibold mb-3">🔗 Linki</h3>
                     <ul className="space-y-2">
                         <li>
-                            <Link href="/o-nas" className="hover:underline">
+                            <Link href="/klub" className="hover:underline">
                                 O klubie
                             </Link>
                         </li>

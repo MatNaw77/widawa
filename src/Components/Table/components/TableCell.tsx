@@ -1,4 +1,5 @@
 import { TableCellProps } from "../types";
+import Image from "next/image";
 
 export function TableCell({ value, index, row }: TableCellProps) {
   if (index === 1) {
@@ -8,7 +9,7 @@ export function TableCell({ value, index, row }: TableCellProps) {
           row.isTomtex ? "text-red-800 font-medium" : ""
         }`}
       >
-        <img
+        <Image
           src={row.logoUrl}
           alt={row.team}
           className="w-6 h-6 md:w-8 md:h-8 object-contain"

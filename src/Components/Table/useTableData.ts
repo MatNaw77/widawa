@@ -94,8 +94,8 @@ export function useTableData() {
         const res = await fetch("/api/getTableData");
         const data = await res.json();
 
-        const formatRows = (rows: any[]): TableRow[] =>
-          rows.map((row: any) => {
+        const formatRows = (rows: TableRow[]): TableRow[] =>
+          rows.map((row: TableRow) => {
             const isTomtex =
               row.team.toLowerCase() === "tomtex widawa ii wrocław" ||
               row.team.toLowerCase() === "tomtex widawa wrocław";

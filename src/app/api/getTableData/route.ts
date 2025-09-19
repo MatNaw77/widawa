@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import fetch from "node-fetch";
 import * as cheerio from "cheerio";
+import { TableRow } from "@/Components/Table/useTableData";
 
 async function fetchTable(url: string) {
   const res = await fetch(url);
@@ -12,7 +13,7 @@ async function fetchTable(url: string) {
     .replace(/±/g, "ą")
     .replace(/¶/g, "ś");
   const $ = cheerio.load(htmlFixed);
-  const results: any[] = [];
+  const results: TableRow[] = [];
 
   const table = $("table.main2").first();
 
@@ -29,6 +30,9 @@ async function fetchTable(url: string) {
         draws: $(cells[5]).text().trim(),
         losses: $(cells[6]).text().trim(),
         goals: $(cells[7]).text().trim(),
+        isTomtex: false,
+        values: [],
+        logoUrl: "",
       });
     }
   });

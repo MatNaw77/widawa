@@ -1,44 +1,48 @@
-'use client'
-import React, { useEffect } from "react";
+"use client";
 
-// Do parsowania HTML po stronie klienta (możesz też użyć DOMParser)
-// import cheerio from "cheerio";
+import React, { useState } from "react";
+import { useTableData } from "./useTableData";
+import { TableHeader } from "./components/TableHeader";
+import { TableRowComponent } from "./components/TableRowComponent";
+import { TabButton } from "./components/TabButton";
+
+const HEADERS = ["", "Drużyna", "Mecze", "Punkty", "Z", "R", "P", "Bramki"];
+const TABS = ["A", "B"] as const;
 
 export function Table() {
-  useEffect(() => {
-    const fetchAndScrape = async () => {
-      try {
-        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-        const targetUrl =
-          "https://www.laczynaspilka.pl/rozgrywki?season=e9d66181-d03e-4bb3-b889-4da848f4831d&leagueGroup=e978c8e5-d903-4a89-b6b5-8d5da6c567ee&leagueId=337bb869-0b42-484f-8eca-0c8842a13ec9&subLeague=b7d2c55b-e2af-44e2-9df2-3f6e05dc1768&enumType=ZpnAndLeagueAndPlay&group=b93b253a-1cad-4892-b97a-6417f98559a3&voivodeship=c38a66b8-8d8e-49b9-8772-948c097d885a&isAdvanceMode=false&genderType=Male";
+  const { tables, loading } = useTableData();
+  const [activeTab, setActiveTab] = useState<"A" | "B">("A");
 
-        const response = await fetch(proxyUrl + targetUrl);
-        const htmlText = await response.text();
+  const rows = tables[activeTab] || [];
 
-        // Parsujemy HTML za pomocą cheerio
-        // const $ = cheerio.load(htmlText);
+  if (loading) {
+    return <div className="text-center py-10 text-gray-500">Ładowanie...</div>;
+  }
 
-        // // Przykładowo pobierzmy wszystkie wiersze z tabeli wyników (dostosuj selektor)
-        // const rows: any = [];
+  return (
+    <div className="mt-30 mb-10 flex flex-col items-center w-full">
+      <div className="flex w-[70%] md:w-[90%]">
+        {TABS.map((tab) => (
+          <TabButton
+            key={tab}
+            tab={tab}
+            isActive={activeTab === tab}
+            onClick={setActiveTab}
+          />
+        ))}
+      </div>
 
-        // $("table tbody tr").each((index: any, element: any) => {
-        //   const columns: any = [];
-        //   $(element)
-        //     .find("td")
-        //     .each((i: any, el: any) => {
-        //       columns.push($(el).text().trim());
-        //     });
-        //   rows.push(columns);
-        // });
-
-        console.log("Zescrapowane dane z tabeli:", htmlText);
-      } catch (error) {
-        console.error("Błąd podczas scrapowania:", error);
-      }
-    };
-
-    fetchAndScrape();
-  }, []);
-
-  return <div>Sprawdź konsolę, żeby zobaczyć dane z Łączy Nas Piłka</div>;
-};
+      {/* Table */}
+      <div className="w-[70%] md:w-[90%] mt-4 overflow-x-auto md:overflow-x-visible border border-t-0 border-gray-300 rounded-b-lg shadow">
+        <table className="table-fixed md:w-full min-w-[600px] border-collapse">
+          <TableHeader headers={HEADERS} />
+          <tbody>
+            {rows.map((row, i) => (
+              <TableRowComponent key={i} row={row} index={i} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

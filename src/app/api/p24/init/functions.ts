@@ -1,8 +1,6 @@
-const crypto = require("crypto");
+import crypto from "crypto";
 
 const merchantId = Number(process.env.P24_MERCHANT_ID!);
-const crc = process.env.P24_CRC!;
-const secret = process.env.P24_SECRET!;
 const urlReturn = process.env.P24_URL_RETURN!;
 const urlStatus = process.env.P24_URL_STATUS!;
 
@@ -19,7 +17,7 @@ export function preparePayload(
     sessionId,
     amount: amount * 100,
     currency: "PLN",
-    description: "Darowizna na cele statutowe",
+    description,
     email,
     regulationAccept: false,
     urlReturn,

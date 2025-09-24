@@ -46,10 +46,10 @@ export async function POST(req: Request) {
   };
 
   // 4️⃣ Basic Auth: posId:secret
-  const basicAuth = Buffer.from(`${merchantId}:${secret}`).toString("base64");
+  const basicAuth = Buffer.from(`${merchantId.toString()}:${secret}`).toString("base64");
 
   // 5️⃣ Wywołanie P24 /register
-  const response = await fetch("https://secure.przelewy24.pl/api/v1/transaction/register", {
+  const response = await fetch("https://sandbox.przelewy24.pl/api/v1/transaction/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -57,6 +57,8 @@ export async function POST(req: Request) {
     },
     body: JSON.stringify(payload),
   });
+
+  console.log({ payload, basicAuth });
 
   const result = await response.json();
 

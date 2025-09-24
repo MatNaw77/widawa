@@ -1,61 +1,55 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 
+function generateP24Sign(params: {
+  sessionId: string;
+  merchantId: number;
+  amount: number;
+  currency: string;
+  crc: string;
+}): string {
+  // JSON encode bez escape unicode i slashes
+  const jsonString = JSON.stringify(params); // w Node.js JSON.stringify nie escapeuje slash ani unicode
+
+  console.log(jsonString);
+  // SHA384 sum
+  const sign = crypto.createHash("sha384").update(jsonString).digest("hex");
+  console.log(sign);
+  return sign;
+}
+
 export async function POST(req: Request) {
   const { amount, email } = await req.json();
-
+  const amountInGroszach = amount * 100;
   const merchantId = Number(process.env.P24_MERCHANT_ID!);
   const posId = Number(process.env.P24_POS_ID!);
   const crc = process.env.P24_CRC!;
   const sandboxUrl =
     "https://sandbox.przelewy24.pl/api/v1/transaction/register";
 
-  const sessionId = `${Date.now()}-${Math.random()}`;
-
+  const sessionId = `34iu123iubfdu23h-83421urh3bb`;
   const data = {
     merchantId,
     posId,
     sessionId,
-    amount,
+    amount: amountInGroszach,
     currency: "PLN",
     description: "Darowizna online",
     email,
-    client: "",
-    address: "",
-    zip: "",
-    city: "",
     country: "PL",
-    phone: "",
     language: "pl",
-    method: 0,
     urlReturn: process.env.P24_URL_RETURN!,
-    urlStatus: process.env.P24_URL_STATUS!,
     timeLimit: 15,
-    channel: 1,
-    waitForResult: true,
-    regulationAccept: true, // zaznaczone przez checkbox
-    shipping: 0,
-    transferLabel: "",
-    mobileLib: 1,
-    sdkVersion: "1.0",
-    sign: crypto
-      .createHash("sha384")
-      .update(
-        `${sessionId}|${process.env.P24_MERCHANT_ID}|${amount}|PLN|${process.env.P24_URL_RETURN}|${process.env.P24_CRC}`
-      )
-      .digest("hex"),
-    encoding: "UTF-8",
-    methodRefId: "",
-    cart: [],
-    additional: {
-      shipping: {},
-      PSU: {},
-    },
   };
 
-  // podpis do autoryzacji
-  const signString = `${data.sessionId}|${data.merchantId}|${data.amount}|${data.currency}|${data.urlReturn}|${crc}`;
-  const sign = crypto.createHash("sha384").update(signString).digest("hex");
+  const controlParams = {
+    sessionId,
+    merchantId,
+    amount: amountInGroszach,
+    currency: "PLN",
+    crc,
+  };
+  const sign = generateP24Sign(controlParams);
 
   const payload = { ...data, sign };
 

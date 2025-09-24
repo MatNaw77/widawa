@@ -8,57 +8,61 @@ function generateP24Sign(params: {
   currency: string;
   crc: string;
 }): string {
-  // JSON encode bez escape unicode i slashes
-  const jsonString = JSON.stringify(params); // w Node.js JSON.stringify nie escapeuje slash ani unicode
-
-  console.log(jsonString);
-  // SHA384 sum
-  const sign = crypto.createHash("sha384").update(jsonString).digest("hex");
-  console.log(sign);
-  return sign;
+  const jsonString = JSON.stringify(params); // JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+  return crypto.createHash("sha384").update(jsonString).digest("hex");
 }
 
 export async function POST(req: Request) {
-  const { amount, email } = await req.json();
-  const amountInGroszach = amount * 100;
-  const merchantId = Number(process.env.P24_MERCHANT_ID!);
-  const posId = Number(process.env.P24_POS_ID!);
-  const crc = process.env.P24_CRC!;
-  const sandboxUrl =
-    "https://sandbox.przelewy24.pl/api/v1/transaction/register";
-
-  const sessionId = `34iu123iubfdu23h-83421urh3bb`;
-  const data = {
-    merchantId,
-    posId,
-    sessionId,
-    amount: amountInGroszach,
-    currency: "PLN",
-    description: "Darowizna online",
-    email,
-    country: "PL",
-    language: "pl",
-    urlReturn: process.env.P24_URL_RETURN!,
-    timeLimit: 15,
-  };
-
-  const controlParams = {
-    sessionId,
-    merchantId,
-    amount: amountInGroszach,
-    currency: "PLN",
-    crc,
-  };
-  const sign = generateP24Sign(controlParams);
-
-  const payload = { ...data, sign };
-
   try {
+    const { amount, email } = await req.json();
+    if (!amount || !email) {
+      return NextResponse.json({ error: "Amount and email are required" });
+    }
+
+    const merchantId = Number(process.env.P24_MERCHANT_ID!);
+    const posId = Number(process.env.P24_POS_ID!);
+    const crc = process.env.P24_CRC!;
+    const secret = process.env.P24_SECRET!;
+    const sandboxUrl =
+      "https://sandbox.przelewy24.pl/api/v1/transaction/register";
+
+    const sessionId = `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
+    const amountInGroszach = amount * 100;
+
+    const controlParams = {
+      sessionId,
+      merchantId,
+      amount: amountInGroszach,
+      currency: "PLN",
+      crc,
+    };
+    const sign = generateP24Sign(controlParams);
+
+    const payload = {
+      merchantId,
+      posId,
+      sessionId,
+      amount: amountInGroszach,
+      currency: "PLN",
+      description: "Darowizna online",
+      email,
+      country: "PL",
+      language: "pl",
+      urlReturn: process.env.P24_URL_RETURN!,
+      timeLimit: 15,
+      sign,
+    };
+
+    const basicAuth = Buffer.from(`${process.env.P24_MERCHANT_ID}:${secret}`).toString("base64");
     const response = await fetch(sandboxUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${basicAuth}`,
+      },
       body: JSON.stringify(payload),
     });
+
     const result = await response.json();
 
     if (result.error) {

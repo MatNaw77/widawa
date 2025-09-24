@@ -18,9 +18,9 @@ export const PaymentBanner: FC = () => {
     });
 
     const result = await res.json();
-    if (result.data?.token) {
-      // redirect do sandbox P24
-      window.location.href = `https://sandbox.przelewy24.pl/trnRequest/${result.data.token}`;
+    
+    if (result.token) {
+      window.location.href = `https://sandbox.przelewy24.pl/trnRequest/${result.token}`;
     } else {
       alert("Błąd podczas inicjalizacji płatności.");
     }

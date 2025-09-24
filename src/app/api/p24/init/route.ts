@@ -1,76 +1,69 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 
-function generateP24Sign(params: {
-  sessionId: string;
-  merchantId: number;
-  amount: number;
-  currency: string;
-  crc: string;
-}): string {
-  const jsonString = JSON.stringify(params); // JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
-  return crypto.createHash("sha384").update(jsonString).digest("hex");
-}
-
 export async function POST(req: Request) {
-  try {
-    const { amount, email } = await req.json();
-    if (!amount || !email) {
-      return NextResponse.json({ error: "Amount and email are required" });
-    }
+  const { amount, description, email, currency } = await req.json();
 
-    const merchantId = Number(process.env.P24_MERCHANT_ID!);
-    const posId = Number(process.env.P24_POS_ID!);
-    const crc = process.env.P24_CRC!;
-    const secret = process.env.P24_SECRET!;
-    const sandboxUrl =
-      "https://sandbox.przelewy24.pl/api/v1/transaction/register";
+  const merchantId = Number(process.env.P24_MERCHANT_ID!);
+  const crc = process.env.P24_CRC!;
+  const secret = process.env.P24_SECRET!;
+  const urlReturn = process.env.P24_URL_RETURN!;
+  const urlStatus = process.env.P24_URL_STATUS!;
 
-    const sessionId = `${Date.now()}-${Math.floor(Math.random() * 1000000)}`;
-    const amountInGroszach = amount * 100;
+  // 1️⃣ Generowanie unikalnego sessionId
+  const preSessionId = new Date().toISOString(); // np. "2025-09-24T12:34:56.789Z"
+  const sessionId = crypto.createHash("md5").update(preSessionId).digest("hex");
 
-    const controlParams = {
-      sessionId,
-      merchantId,
-      amount: amountInGroszach,
-      currency: "PLN",
-      crc,
-    };
-    const sign = generateP24Sign(controlParams);
+  // 2️⃣ Generowanie sumy kontrolnej (sign)
+  const sign = crypto
+    .createHash("sha384")
+    .update(
+      JSON.stringify({
+        sessionId,
+        merchantId,
+        amount: amount * 100, // P24 w groszach
+        currency,
+        crc,
+      })
+    )
+    .digest("hex");
 
-    const payload = {
-      merchantId,
-      posId,
-      sessionId,
-      amount: amountInGroszach,
-      currency: "PLN",
-      description: "Darowizna online",
-      email,
-      country: "PL",
-      language: "pl",
-      urlReturn: process.env.P24_URL_RETURN!,
-      timeLimit: 15,
-      sign,
-    };
+  // 3️⃣ Payload do /register
+  const payload = {
+    merchantId,
+    posId: merchantId, // jak w PHP
+    sessionId,
+    amount: amount * 100,
+    currency,
+    description,
+    email,
+    regulationAccept: false,
+    urlReturn,
+    urlStatus,
+    country: "PL",
+    language: "pl",
+    sign,
+  };
 
-    const basicAuth = Buffer.from(`${process.env.P24_MERCHANT_ID}:${secret}`).toString("base64");
-    const response = await fetch(sandboxUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${basicAuth}`,
-      },
-      body: JSON.stringify(payload),
-    });
+  // 4️⃣ Basic Auth: posId:secret
+  const basicAuth = Buffer.from(`${merchantId}:${secret}`).toString("base64");
 
-    const result = await response.json();
+  // 5️⃣ Wywołanie P24 /register
+  const response = await fetch("https://secure.przelewy24.pl/api/v1/transaction/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${basicAuth}`,
+    },
+    body: JSON.stringify(payload),
+  });
 
-    if (result.error) {
-      return NextResponse.json({ error: result.error });
-    }
+  const result = await response.json();
 
-    return NextResponse.json(result);
-  } catch (err) {
-    return NextResponse.json({ error: (err as Error).message });
+  // 6️⃣ Jeśli token jest zwrócony, przekieruj
+  if (result.data?.token) {
+    return NextResponse.redirect(`https://secure.przelewy24.pl/trnRequest/${result.data.token}`);
   }
+
+  return NextResponse.json({ error: result.error || "Unknown error", result });
 }

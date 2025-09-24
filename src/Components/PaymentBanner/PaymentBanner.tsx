@@ -5,6 +5,8 @@ import Link from "next/link";
 
 export const PaymentBanner: FC = () => {
   const [accepted, setAccepted] = useState(false);
+  const [customAmount, setCustomAmount] = useState<number | null>(null);
+
   const amounts = [30, 50, 100, "inna"];
 
   const handlePayment = async (amount: number) => {
@@ -18,7 +20,7 @@ export const PaymentBanner: FC = () => {
     });
 
     const result = await res.json();
-    
+
     if (result.token) {
       window.location.href = `https://sandbox.przelewy24.pl/trnRequest/${result.token}`;
     } else {
@@ -57,21 +59,32 @@ export const PaymentBanner: FC = () => {
               <button
                 key={i}
                 disabled={!accepted}
-                onClick={() => typeof a === "number" && handlePayment(a)}
+                onClick={() =>
+                  typeof a === "number"
+                    ? handlePayment(a)
+                    : handlePayment(customAmount ?? 0)
+                }
                 className={`rounded-lg py-6 text-center font-semibold transition
-                  ${
-                    accepted
-                      ? "bg-red-600 hover:bg-red-800 cursor-pointer"
-                      : "bg-red-400 cursor-not-allowed"
-                  }`}
+                ${
+                  accepted
+                    ? "bg-red-600 cursor-pointer"
+                    : "bg-red-400 cursor-not-allowed"
+                }`}
               >
                 {a === "inna" ? (
                   <>
                     Wpłacam <br />
                     <span className="text-lg">inną kwotę</span>
-                    <p className="text-xs mt-1">
-                      (kwota do wpisania u operatora płatności)
-                    </p>
+                    <p className="text-xs mt-1">(kwota do wpisania poniżej)</p>
+                    <input
+                      type="text"
+                      min={1}
+                      placeholder="PLN"
+                      className="w-full text-center text-white rounded-md px-4 py-2 mt-2 text-sm bg-red-700 border border-red-500 focus:outline-none"
+                      onClick={(e) => e.stopPropagation()} // 🚫 blokada propagacji kliknięcia
+                      value={customAmount ?? ""}
+                      onChange={(e) => setCustomAmount(Number(e.target.value))}
+                    />
                   </>
                 ) : (
                   <>

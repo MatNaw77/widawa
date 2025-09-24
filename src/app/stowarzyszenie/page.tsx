@@ -1,5 +1,11 @@
 import { PaymentBanner } from "@/Components/PaymentBanner/PaymentBanner";
+import { Charity } from "@/Components/Charity/Charity";
 
 export default function Stowarzyszenie() {
-  return <PaymentBanner />;
+  return (
+    <>
+      <PaymentBanner />
+      <Charity />
+    </>
+  );
 }

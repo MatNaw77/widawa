@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     ).toString("base64");
 
     const response = await fetch(
-      "https://sandbox.przelewy24.pl/api/v1/transaction/register",
+      "https://secure.przelewy24.pl/api/v1/transaction/register",
       {
         method: "POST",
         headers: {

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 
 export async function POST(req: Request) {
-  const { amount, description, email, currency } = await req.json();
+  const { amount, email } = await req.json();
 
   const merchantId = Number(process.env.P24_MERCHANT_ID!);
   const crc = process.env.P24_CRC!;
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
         sessionId,
         merchantId,
         amount: amount * 100, // P24 w groszach
-        currency,
+        currency: "PLN",
         crc,
       })
     )
@@ -34,8 +34,8 @@ export async function POST(req: Request) {
     posId: merchantId, // jak w PHP
     sessionId,
     amount: amount * 100,
-    currency,
-    description,
+    currency: "PLN",
+    description: 'Darowizna na cele statutowe',
     email,
     regulationAccept: false,
     urlReturn,

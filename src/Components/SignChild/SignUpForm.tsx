@@ -23,7 +23,13 @@ const initialValues: FormType = {
 };
 
 export const SignUpForm: FC<{ onClose: () => void }> = ({ onClose }) => {
-    const handleSubmit = async (values: FormType, { setSubmitting, resetForm }: any) => {
+    const handleSubmit = async (
+        values: FormType,
+        {
+            setSubmitting,
+            resetForm,
+        }: { setSubmitting: (submitting: boolean) => void; resetForm: () => void }
+    ) => {
         try {
             const res = await fetch("/api/send-mail", {
                 method: "POST",

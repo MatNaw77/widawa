@@ -9,8 +9,8 @@ export const Description: FC = () => (
             <div>
                 <h2 className="text-2xl font-semibold mb-4">🎯 Nasza misja</h2>
                 <blockquote className="p-4 bg-gray-50 border-l-4 border-green-500 rounded-md text-gray-700 italic">
-                    „Piłka nożna dla wszystkich – niezależnie od wieku, umiejętności czy ambicji
-                    sportowych."
+                    &quot;Piłka nożna dla wszystkich – niezależnie od wieku, umiejętności czy
+                    ambicji sportowych.&quot;
                 </blockquote>
                 <p className="mt-4 text-gray-700">
                     Naszą największą dumą są dzieci i młodzież, w których drzemie przyszłość

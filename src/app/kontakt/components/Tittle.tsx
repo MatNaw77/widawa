@@ -1,6 +1,5 @@
 import React from "react";
 import { email } from "../data/data";
-import { ContactCard } from "./ContactCard";
 
 export function Tittle() {
     return (

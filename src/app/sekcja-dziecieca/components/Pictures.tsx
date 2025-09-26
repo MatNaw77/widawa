@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export function Pictures() {
     const images = ["/michal.jpg", "/milosz.jpg", "/pawel.jpg"];
 
@@ -10,10 +12,13 @@ export function Pictures() {
                         key={idx}
                         className="overflow-hidden rounded-xl shadow-lg hover:scale-105 transform transition duration-300"
                     >
-                        <img
+                        <Image
                             src={src}
                             alt={`Trening ${idx + 1}`}
-                            className="w-full h-56 object-cover"
+                            className="w-full h-64 object-cover"
+                            width={400}
+                            height={256}
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 400px"
                         />
                     </div>
                 ))}

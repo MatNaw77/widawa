@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
     try {
-        const { parentName, childName, age, email, phoneNumber } = await req.json();
+        const { parentName, childName, age, email, phoneNumber, notes } = await req.json();
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -17,12 +17,13 @@ export async function POST(req: NextRequest) {
             to: "ks.widawa.wroclaw@gmail.com",
             subject: `Nowe zgłoszenie do sekcji: ${childName}`,
             html: `
-        <h2>Nowy formularz zgłoszeniowy</h2>
-        <p><strong>Rodzic:</strong> ${parentName}</p>
-        <p><strong>Dziecko:</strong> ${childName}</p>
-        <p><strong>Wiek:</strong> ${age}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Telefon:</strong> ${phoneNumber}</p>
+                <h2>Nowy formularz zgłoszeniowy</h2>
+                <p><strong>Rodzic:</strong> ${parentName}</p>
+                <p><strong>Dziecko:</strong> ${childName}</p>
+                <p><strong>Wiek:</strong> ${age}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Telefon:</strong> ${phoneNumber}</p>
+                <p><strong>Uwagi:</strong> ${notes}</p>
       `,
         });
 

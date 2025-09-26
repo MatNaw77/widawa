@@ -11,4 +11,5 @@ export const validationSchema = Yup.object({
         .matches(/^[0-9]{9}$/, "Telefon musi mieć 9 cyfr")
         .required("Telefon jest wymagany"),
     email: Yup.string().email("Nieprawidłowy adres email").required("Email jest wymagany"),
+    notes: Yup.string().optional(),
 });

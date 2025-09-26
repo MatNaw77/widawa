@@ -10,6 +10,7 @@ type FormType = {
     age: string;
     email: string;
     phoneNumber: string;
+    notes: string;
 };
 
 const initialValues: FormType = {
@@ -18,6 +19,7 @@ const initialValues: FormType = {
     age: "",
     email: "",
     phoneNumber: "",
+    notes: "",
 };
 
 export const SignUpForm: FC<{ onClose: () => void }> = ({ onClose }) => {
@@ -50,16 +52,16 @@ export const SignUpForm: FC<{ onClose: () => void }> = ({ onClose }) => {
 
     return (
         <div
-            className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+            className="fixed inset-0 flex items-center justify-center bg-black/50 z-[9999] overflow-hidden"
             onClick={onClose}
         >
             <div
-                className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-8 relative"
+                className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-8 relative z-[10000]"
                 onClick={(e) => e.stopPropagation()}
             >
                 <button
                     onClick={onClose}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 cursor-pointer"
+                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 cursor-pointer z-[10001]"
                 >
                     ✕
                 </button>
@@ -165,6 +167,25 @@ export const SignUpForm: FC<{ onClose: () => void }> = ({ onClose }) => {
                                 />
                                 <ErrorMessage
                                     name="email"
+                                    component="div"
+                                    className="text-sm text-red-500 mt-1"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Uwagi (opcjonalnie)
+                                </label>
+                                <Field
+                                    as="textarea"
+                                    name="notes"
+                                    placeholder="Np. informacje o alergiach, preferencjach itp."
+                                    className="w-full rounded-lg border border-gray-300 px-4 py-2 
+                                        focus:ring-2 focus:ring-red-500 focus:outline-none
+                                        placeholder-gray-400 text-black resize-none"
+                                    rows={3}
+                                />
+                                <ErrorMessage
+                                    name="notes"
                                     component="div"
                                     className="text-sm text-red-500 mt-1"
                                 />

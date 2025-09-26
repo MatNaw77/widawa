@@ -6,8 +6,9 @@ import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 const links = [
-    { href: "/klub", label: "O klubie" },
-    { href: "/dzieci", label: "Sekcja dziecięca" },
+    { href: "/o-nas", label: "O nas" },
+    { href: "/seniorzy", label: "Seniorzy" },
+    { href: "/sekcja-dziecieca", label: "Sekcja dziecięca" },
     { href: "/stowarzyszenie", label: "Stowarzyszenie" },
     { href: "/kontakt", label: "Kontakt" },
 ];
@@ -35,8 +36,9 @@ export const Navbar: FC = () => {
             <div className="max-w-7xl mx-auto px-6 sm:px-10 flex items-center justify-between h-20">
                 <div className="flex items-center gap-3">
                     <button
-                        className={`md:hidden transition-colors ${isScrolled ? "text-red-600" : "text-white"
-                            }`}
+                        className={`md:hidden transition-colors ${
+                            isScrolled ? "text-red-600" : "text-white"
+                        }`}
                         onClick={() => setMenuOpen(true)}
                         aria-label="Toggle menu"
                     >
@@ -44,12 +46,7 @@ export const Navbar: FC = () => {
                     </button>
 
                     <Link href="/" className="flex items-center gap-3">
-                        <Image
-                            src="/logo.svg"
-                            alt="Logo klubu"
-                            width={100}
-                            height={35}
-                        />
+                        <Image src="/logo.svg" alt="Logo klubu" width={100} height={35} />
                         <span
                             className={`font-bold tracking-wide transition-colors 
                             ${isScrolled ? "text-red-600" : "text-white md:text-white"} 
@@ -61,8 +58,9 @@ export const Navbar: FC = () => {
                 </div>
 
                 <nav
-                    className={`hidden md:flex space-x-10 text-lg font-semibold transition-colors ${isScrolled ? "text-red-600" : "text-white"
-                        }`}
+                    className={`hidden md:flex space-x-10 text-lg font-semibold transition-colors ${
+                        isScrolled ? "text-red-600" : "text-white"
+                    }`}
                 >
                     {links.map((link) => (
                         <Link key={link.href} href={link.href} className="hover:underline">
@@ -73,8 +71,9 @@ export const Navbar: FC = () => {
             </div>
 
             <div
-                className={`fixed inset-0 z-40 transition-opacity duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-                    }`}
+                className={`fixed inset-0 z-40 transition-opacity duration-300 ${
+                    menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+                }`}
             >
                 <div
                     className="absolute inset-0 bg-gray-200 opacity-50"

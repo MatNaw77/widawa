@@ -14,7 +14,7 @@ export function About() {
                 </ul>
             </div>
             <Image
-                src="/widawa_dorosli.jpg" // podmień na swoje zdjęcie
+                src="/widawa_dorosli.jpg"
                 alt="Piłkarz w akcji"
                 width={600}
                 height={400}

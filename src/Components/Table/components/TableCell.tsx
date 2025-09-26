@@ -11,6 +11,8 @@ export function TableCell({ value, index, row }: TableCellProps) {
       >
         <Image
           src={row.logoUrl}
+          width={32}
+          height={32}
           alt={row.team}
           className="w-6 h-6 md:w-8 md:h-8 object-contain"
         />

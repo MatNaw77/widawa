@@ -3,7 +3,7 @@ import { FaEnvelope } from "react-icons/fa";
 import { FacebookLink } from "@/Components/FacebookLink/FacebookLink";
 const footerLinks = {
     klub: [
-        { href: "/o-nas", label: "O nas" },
+        { href: "/o-nas", label: "O klubie" },
         { href: "/seniorzy", label: "Seniorzy" },
         { href: "/sekcja-dziecieca", label: "Sekcja dziecięca" },
         { href: "/stowarzyszenie", label: "Stowarzyszenie" },

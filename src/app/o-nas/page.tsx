@@ -6,6 +6,7 @@ import { NewPath } from "./components/NewPath";
 import { Rewards } from "./components/Rewards";
 import { Children } from "./components/Children";
 import { Support } from "./components/Support";
+import { Pictures } from "./components/Pictures";
 
 export default function SekcjaDziecieca() {
     return (
@@ -13,6 +14,7 @@ export default function SekcjaDziecieca() {
             <Title />
             <Caption />
             <History />
+            <Pictures />
             <NewPath />
             <Rewards />
             <Children />

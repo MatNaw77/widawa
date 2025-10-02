@@ -1,9 +1,27 @@
-import { NextResponse } from "next/server";
 import fetch from "node-fetch";
 import * as cheerio from "cheerio";
-import { TableRow } from "@/Components/Table/useTableData";
+import cron from "node-cron";
+import { NextResponse } from "next/server";
 
-async function fetchTable(url: string) {
+export interface TableRow {
+  position: string;
+  team: string;
+  matches: string;
+  points: string;
+  wins: string;
+  draws: string;
+  losses: string;
+  goals: string;
+  isTomtex: boolean;
+  values: any[];
+  logoUrl: string;
+}
+
+let cachedData: { A: TableRow[]; B: TableRow[] } | null = null;
+let lastUpdated: string | null = null;
+
+async function fetchTable(url: string): Promise<TableRow[]> {
+  if (!url) return [];
   const res = await fetch(url);
   const buffer = await res.arrayBuffer();
   const decoder = new TextDecoder("windows-1250");
@@ -16,7 +34,6 @@ async function fetchTable(url: string) {
   const results: TableRow[] = [];
 
   const table = $("table.main2").first();
-
   table.find("tr").each((i, el) => {
     if (i < 4) return;
     const cells = $(el).find("td");
@@ -40,11 +57,28 @@ async function fetchTable(url: string) {
   return results;
 }
 
-export async function GET() {
+async function updateCache() {
   const [tableA, tableB] = await Promise.all([
     fetchTable(process.env.LINK_A || ""),
     fetchTable(process.env.LINK_B || ""),
   ]);
+  cachedData = { A: tableA, B: tableB };
+  lastUpdated = new Date().toISOString();
+  console.log("Cache updated:", lastUpdated);
+}
 
-  return NextResponse.json({ A: tableA, B: tableB });
+cron.schedule("0 20 * * *", async () => {
+  try {
+    await updateCache();
+  } catch (err) {
+    console.error("Error updating cache:", err);
+  }
+});
+
+export async function GET() {
+  if (!cachedData) {
+    console.log("Cache empty, fetching for first time...");
+    await updateCache();
+  }
+  return NextResponse.json({ ...cachedData, lastUpdated });
 }

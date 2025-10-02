@@ -1,19 +1,34 @@
+import React from "react";
+
 export function NewPath() {
     return (
-        <div className="mt-16">
-            <h2 className="text-2xl font-semibold mb-4">
-                🟢 Nowa droga – KS Tomtex Widawa Wrocław
-            </h2>
-            <p className="text-gray-700 mb-4">
-                W 2011 roku powstał KS Tomtex Widawa Wrocław – klub, który przywrócił piłkę na nasze
-                osiedle. Nie interesowały nas szybkie projekty ani sztuczne twory – chcieliśmy
-                stworzyć coś trwałego, opartego na mieszkańcach i ich dzieciach.
-            </p>
-            <p className="text-gray-700">
-                Dziś kontynuujemy tradycję sięgającą 1948 roku, ale na nowych zasadach –
-                profesjonalnie, przejrzyście i z myślą o przyszłości. 🏟️ Boisko na Widawie znów
-                tętni życiem.
-            </p>
-        </div>
+        <section className="mt-16 bg-red-100 px-6 py-12 rounded-2xl shadow-lg dark:text-gray-100">
+            <div className="max-w-5xl mx-auto space-y-6">
+                <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2 dark:text-gray-100">
+                    🟢 Nowa droga – KS Tomtex Widawa Wrocław
+                </h2>
+
+                <p className="mb-4 dark:text-gray-100">
+                    W 2011 roku powstał KS Tomtex Widawa Wrocław – klub, który przywrócił piłkę na
+                    nasze osiedle i postawił na rozwój lokalnej społeczności.
+                </p>
+
+                <p className="mb-4 dark:text-gray-100">
+                    Nie interesowały nas szybkie projekty ani sztuczne twory. Chcieliśmy stworzyć
+                    coś trwałego – opartego na mieszkańcach, ich dzieciach i wspólnym działaniu.
+                </p>
+
+                <p className="mb-4 dark:text-gray-100">
+                    Dziś kontynuujemy tradycję sięgającą 1948 roku, ale robimy to na nowych zasadach
+                    – profesjonalnie, przejrzyście i z myślą o przyszłości.
+                </p>
+
+                <ul className="list-disc list-inside space-y-1 dark:text-gray-100">
+                    <li>Boisko na Widawie znów tętni życiem</li>
+                    <li>Kolejne pokolenia mają swoje miejsce do grania</li>
+                    <li>Miejsce do nauki i budowania tożsamości lokalnej</li>
+                </ul>
+            </div>
+        </section>
     );
 }

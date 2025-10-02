@@ -24,7 +24,8 @@ export function Children() {
             </div>
 
             <p className="text-gray-700 mb-6">
-                Obie drużyny rozwijają się dynamicznie – rozgrywają sparingi, turnieje i ligę.
+                📈 Obie drużyny rozwijają się dynamicznie – rozgrywają sparingi i biorą udział w
+                turniejach oraz lidze.
             </p>
 
             <div className="space-y-4">

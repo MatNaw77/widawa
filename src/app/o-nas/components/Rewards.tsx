@@ -1,4 +1,5 @@
 import { Trophy, Calendar, Users, Star } from "lucide-react";
+import Image from "next/image";
 
 export function Rewards() {
     const milestones = [
@@ -9,9 +10,9 @@ export function Rewards() {
         },
         { year: "2013", text: "awans do B-klasy", icon: <Star className="w-5 h-5 text-red-500" /> },
         {
-            year: "2022",
-            text: "awans do A-klasy (obecnie 4. sezon z rzędu)",
-            icon: <Trophy className="w-5 h-5 text-yellow-500" />,
+            year: "2015",
+            text: "3. miejsce w Pucharze Sołtysa Zawoni",
+            icon: <Star className="w-5 h-5 text-red-500" />,
         },
         {
             year: "2021",
@@ -19,26 +20,34 @@ export function Rewards() {
             icon: <Users className="w-5 h-5 text-blue-500" />,
         },
         {
+            year: "2022",
+            text: "awans do A-klasy (obecnie 4. sezon z rzędu)",
+            icon: <Trophy className="w-5 h-5 text-yellow-500" />,
+        },
+        {
             year: "2022/23",
             text: "IV runda Okręgowego Pucharu Polski (porażka z Piastem Żmigród)",
             icon: <Trophy className="w-5 h-5 text-yellow-400" />,
-        },
-        {
-            year: "2015",
-            text: "3. miejsce w Pucharze Sołtysa Zawoni",
-            icon: <Star className="w-5 h-5 text-red-500" />,
         },
     ];
 
     return (
         <section className="w-full bg-gradient-to-tr from-red-50 via-red-100 to-red-50 py-16 shadow-inner rounded-2xl animate-fadeIn mt-20">
-            <div className="max-w-5xl mx-auto px-6">
-                <h2 className="flex items-center gap-3 text-2xl md:text-3xl font-bold text-red-700 mb-8">
+            <div className="max-w-5xl mx-auto px-6 space-y-8">
+                <h2 className="flex items-center gap-3 text-2xl md:text-3xl font-bold text-red-700">
                     <Trophy className="w-7 h-7 text-yellow-400" /> ⚽ Tomtex Widawa Wrocław 2011 –
                     do dziś
                 </h2>
-
-                <ul className="space-y-4">
+                <div className="relative w-full h-96 rounded-2xl overflow-hidden shadow-lg">
+                    <Image
+                        src="/o/awans.jpg" // zamień na swoją ścieżkę
+                        alt="Zawodnicy cieszą się z sukcesu"
+                        fill
+                        className="object-cover w-full h-full"
+                        priority
+                    />
+                </div>
+                <ul className="space-y-4 mt-6">
                     {milestones.map((m) => (
                         <li
                             key={m.year}

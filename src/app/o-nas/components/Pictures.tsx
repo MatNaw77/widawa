@@ -3,12 +3,12 @@ import Image from "next/image";
 import { useState } from "react";
 
 export function Pictures() {
-    const images = ["/o/ziomale.jpg", "/o/gazetka1.jpg", "/o/sklad.jpg"];
+    const images = ["/o/ziomalev2.jpg", "/o/gazetka1v2.jpg", "/o/gazetka2v2.jpg", "/o/skladv2.jpg"];
     const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
     return (
         <div className="max-w-5xl mx-auto px-6 animate-fadeIn delay-250 mt-10">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {images.map((src: string, idx: number) => (
                     <div
                         key={idx}

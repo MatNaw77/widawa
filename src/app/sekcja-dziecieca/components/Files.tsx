@@ -30,6 +30,10 @@ const files = [
         name: "Klauzula informacyjna RODO",
         href: "/files/Załącznik-6_Klauzula-informacyjna-RODO-Widawa.pdf",
     },
+    {
+        name: "Polityka ochrony małoletnich",
+        href: "/files/Załącznik-7_Polityka-Ochrony-Małoletnich_Widawa.pdf",
+    },
 ];
 
 export function Files() {
